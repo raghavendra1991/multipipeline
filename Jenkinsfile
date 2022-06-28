@@ -16,6 +16,12 @@ pipeline {
 
         /* We do not need a stage for checkout here since it is done by default when using "Pipeline script from SCM" option. */
         
+        stage ('Cleaning') {
+            steps {
+                echo 'Cleaning Local Images and Containers'
+                sh 'docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true && docker rmi -f $(docker images  -a -q) || true'     
+            }
+        }
         stage ('Build Docker Image') {
             steps {
                 echo 'Building Docker Image'
@@ -36,12 +42,8 @@ pipeline {
         }
         stage ('Push Image') {
             steps {
-                script {
-                    withCredentials([usernameColonPassword(credentialsId: 'docker-hub', variable: 'docker-hub')]) {
-                        echo 'Pushing Image'
-                        sh 'docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
-                      }
-                }
+                echo 'Pushing Image'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR  --password-stdin && docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
             }
         }
     }

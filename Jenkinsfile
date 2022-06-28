@@ -9,30 +9,15 @@ pipeline {
         https_proxy = 'http://127.0.0.1:3128/'
         ftp_proxy = 'http://127.0.0.1:3128/'
         socks_proxy = 'socks://127.0.0.1:3128/'
-    }
-
-    stages {
+    }   
+        stages {
 
         /* We do not need a stage for checkout here since it is done by default when using "Pipeline script from SCM" option. */
         
-        stage ('Build Docker Image') {
+        stage ('Cleaning') {
             steps {
-                echo 'Building Docker Image'
-                sh 'docker build -t $DOCKER_HUB_REPO:$BUILD_NUMBER .'       
-            }
-        }
-
-        stage ('Push Image ') {
-            steps {
-                echo 'Pushing Image'
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR  --password-stdin'
-                sh 'docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
-            }
-        }
-        stage ('Delete Docker Image') {
-            steps {
-                echo 'Deleting Docker Image'
-                sh 'docker rmi $DOCKER_HUB_REPO:$BUILD_NUMBER'
+                echo 'Cleaning Local Images and Containers'
+                sh 'docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true && docker rmi -f $(docker images  -a -q) || true'     
             }
         }
     }

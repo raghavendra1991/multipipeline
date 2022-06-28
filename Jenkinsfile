@@ -6,7 +6,7 @@ pipeline {
         DOCKER_HUB_REPO = "raghaduvva/flaskapp"
         DOCKERHUB_CREDENTIALS = credentials('docker-hub')
         CONTAINER_NAME = "app"
-        wget_result="$(wget -NS localhost:5000 2>&1|grep "HTTP/"|awk '{print $2}')"
+        wget_result = "$(wget -NS localhost:5000 2>&1|grep "HTTP/"|awk '{print $2}')"
         http_proxy = 'http://127.0.0.1:3128/'
         https_proxy = 'http://127.0.0.1:3128/'
         ftp_proxy = 'http://127.0.0.1:3128/'

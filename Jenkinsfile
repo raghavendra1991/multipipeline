@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'Testing Container'
-                    sh './scripr.sh'
+                    sh './script.sh'
                 }
             }
         }

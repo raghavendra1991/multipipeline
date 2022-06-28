@@ -37,7 +37,7 @@ pipeline {
         stage ('Testing Container') {
             steps {
                 echo 'Testing Container'
-                sh 'wget localhost:5000'
+                sh './http.sh'
             }
         }
         stage ('Push Image to DockerHub') {

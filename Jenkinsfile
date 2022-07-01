@@ -1,14 +1,14 @@
 // Declarative pipeline
 pipeline {
     agent {
-		    label 'slave'
-	  }
+	label 'slave'
+    }
 
     environment {
         DOCKER_HUB_REPO = "raghaduvva/flaskapp"
         DOCKERHUB_CREDENTIALS = credentials('docker-hub')
         CONTAINER_NAME = "app"
-	      http_proxy = 'http://127.0.0.1:3128/'
+	http_proxy = 'http://127.0.0.1:3128/'
         https_proxy = 'http://127.0.0.1:3128/'
         ftp_proxy = 'http://127.0.0.1:3128/'
         socks_proxy = 'socks://127.0.0.1:3128/'
@@ -46,7 +46,7 @@ pipeline {
         stage ('Push Image') {
             steps {
                 echo 'Pushing Image'
-		            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR  --password-stdin && docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
+		        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR  --password-stdin && docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
             }
         }
     }

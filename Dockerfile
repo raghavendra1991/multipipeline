@@ -15,7 +15,7 @@ ENV https_proxy http://host.docker.internal:3128
 RUN pip install -r requirements.txt
  
 #  Output from python script app.py
-EXPOSE 80
+EXPOSE 5000
  
 # Run app.py when the container launches
 CMD ["python", "app.py"]
